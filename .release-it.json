@@ -4,11 +4,14 @@
   },
   "github": {
     "release": false,
+    "tag": false,
+    "commit": false,
+    "push": false,
     "releaseName": "Release v${version}",
     "tokenRef": "GH_TOKEN"
   },
   "npm": {
-    "publish": true,
+    "publish": false,
     "publishPath": ".",
     "publishArgs": [],
     "tag": null,
