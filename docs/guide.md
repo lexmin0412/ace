@@ -1,12 +1,12 @@
-# 开始
+# Start
 
-## 安装
+## Install
 
 ```shell
 pnpm install antd-components-enhanced
 ```
 
-## 使用组件
+## Usage
 
 ```tsx ｜ pure
 import { FormInputList } from 'antd-components-enhanced';

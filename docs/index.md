@@ -1,11 +1,11 @@
 ---
 hero:
   title: AntD CE
-  description: 基于 Ant Design 的 React 组件库
+  description: React component lib based on Ant Design
   actions:
-    - text: 开始
+    - text: Start
       link: /guide
-    - text: 组件
+    - text: Components
       link: /components/form-input-list
 # features:
 #   - title: High Performance

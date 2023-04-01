@@ -11,4 +11,5 @@ export default defineConfig({
       github: 'https://github.com/lexmin0412/antd-components-enhanced',
     },
   },
+  locales: [{ id: 'en-US', name: 'English' }],
 });

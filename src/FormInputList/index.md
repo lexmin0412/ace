@@ -1,8 +1,8 @@
-# 批量录入
+# FormInputList
 
-## 用法
+## Usage
 
-### 基本使用
+### Basic usage
 
 ```jsx
 import { Form } from 'antd';
@@ -10,15 +10,15 @@ import { FormInputList } from 'antd-components-enhanced';
 
 export default () => {
   return (
-    <Form.Item label="域名列表">
-      <FormInputList placeholder="请输入域名" />
+    <Form.Item label="domain list">
+      <FormInputList placeholder="Please input domain" />
     </Form.Item>
   );
 };
 ```
 
-## 属性
+## Props
 
-| prop        | 描述       | 类型     | 必填 | 默认值   |
-| ----------- | ---------- | -------- | ---- | -------- |
-| placeholder | 输入框提示 | `string` | 否   | `请输入` |
+| prop        | description            | type     | required | defaultValue   |
+| ----------- | ---------------------- | -------- | -------- | -------------- |
+| placeholder | html input placeholder | `string` | no       | `Please input` |

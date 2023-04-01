@@ -17,7 +17,7 @@ interface FormInputListProps {
 }
 
 export default function FormInputList(props: FormInputListProps) {
-  const { placeholder = '请输入', value, onChange } = props;
+  const { placeholder = 'Please input', value, onChange } = props;
   const [valueList, setValueList] = useState<string[]>(['']);
 
   const value4Render = useMemo(() => {
@@ -29,8 +29,6 @@ export default function FormInputList(props: FormInputListProps) {
     setValueList(newList);
     onChange?.(newList);
   };
-
-  console.log('value4Render', value4Render);
 
   const handleFieldChange = (e: any, index: number) => {
     const newValues = _.cloneDeep(value4Render);
@@ -92,7 +90,7 @@ export default function FormInputList(props: FormInputListProps) {
       >
         <div className={styles['form-item-add']}>
           <IconAdd />
-          <span>添加</span>
+          <span>Add</span>
         </div>
       </div>
     </>
