@@ -1,0 +1,26 @@
+name: 部署文档
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 拉取仓库代码
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: 安装依赖
+        run: |
+          npm install pnpm -g
+          pnpm install
+          pnpm build
+      - name: 部署应用
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          ACCESS_TOKEN: ${{ secrets.GH_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: dist
