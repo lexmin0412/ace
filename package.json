@@ -1,6 +1,6 @@
 {
   "name": "antd-components-enhanced",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "a react components library based on antd",
   "license": "MIT",
   "module": "dist/index.js",
