@@ -2,6 +2,7 @@ import { defineConfig } from 'dumi';
 
 export default defineConfig({
   base: '/antd-components-enhanced',
+  publicPath: '/antd-components-enhanced/',
   outputPath: 'docs-dist',
   themeConfig: {
     name: 'AntD CE',
