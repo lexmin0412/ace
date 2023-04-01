@@ -3,6 +3,11 @@
   "version": "0.0.5",
   "description": "a react components library based on antd",
   "license": "MIT",
+  "author": {
+    "name": "lexmin0412",
+    "email": "lexmin0412@outlook.com",
+    "url": "https://github.com/lexmin0412"
+  },
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -77,9 +82,7 @@
     "node": ">=16.14.0"
   },
   "publishConfig": {
-    "access": "public"
-  },
-  "authors": [
-    "lexmin0412@outlook.com"
-  ]
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
 }
