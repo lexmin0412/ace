@@ -17,7 +17,7 @@ jobs:
         run: |
           npm install pnpm -g
           pnpm install
-          pnpm build
+          pnpm docs:build
       - name: 部署应用
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
