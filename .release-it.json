@@ -5,10 +5,10 @@
   "github": {
     "release": true,
     "releaseName": "Release v${version}",
-    "tokenRef": "COMMIT_TOKEN"
+    "tokenRef": "GH_TOKEN"
   },
   "npm": {
-    "publish": true,
+    "publish": false,
     "publishPath": ".",
     "publishArgs": [],
     "tag": null,
