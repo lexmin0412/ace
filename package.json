@@ -18,7 +18,8 @@
     "lint:css": "stylelint \"{src,test}/**/*.{css,less}\"",
     "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
     "prepare": "husky install && dumi setup",
-    "prepublishOnly": "father doctor && npm run build",
+    "prepublishOnly": "npm run build",
+    "release": "release-it --ci",
     "start": "npm run dev"
   },
   "commitlint": {
@@ -45,7 +46,8 @@
   },
   "dependencies": {
     "antd": "^5.3.3",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "release-it": "^15.10.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
