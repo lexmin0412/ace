@@ -11,13 +11,21 @@ import IconAdd from './icon-add';
 import styles from './index.module.less';
 
 interface FormInputListProps {
+  addIcon?: JSX.Element;
+  removeIcon?: JSX.Element;
   placeholder?: string;
   value?: string[];
   onChange?: (value: string[]) => void;
 }
 
 export default function FormInputList(props: FormInputListProps) {
-  const { placeholder = 'Please input', value, onChange } = props;
+  const {
+    addIcon,
+    removeIcon,
+    placeholder = 'Please input',
+    value,
+    onChange,
+  } = props;
   const [valueList, setValueList] = useState<string[]>(['']);
 
   const value4Render = useMemo(() => {
@@ -78,7 +86,7 @@ export default function FormInputList(props: FormInputListProps) {
                 onClick={() => handleSubstractItem(index)}
                 className={styles['substract-button']}
               >
-                -
+                {removeIcon || '-'}
               </div>
             </div>
           </div>
@@ -89,7 +97,7 @@ export default function FormInputList(props: FormInputListProps) {
         className={`${styles['form-item-container']} ${styles['border-0']}`}
       >
         <div className={styles['form-item-add']}>
-          <IconAdd />
+          {addIcon || <IconAdd />}
           <span>Add</span>
         </div>
       </div>
