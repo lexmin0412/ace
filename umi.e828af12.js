@@ -24,7 +24,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
 `,paraId:0,tocIndex:1},{value:`import { FormInputList } from 'antd-components-enhanced';
 
 export default () => {
-  return <FormInputList placeholder="\u8BF7\u8F93\u5165\u57DF\u540D" />;
+  return <FormInputList placeholder="Please Input Domain" />;
 };
 `,paraId:1,tocIndex:2}],p={},v={title:"Docs",toc:"menu",filename:"docs/index.md",hero:{title:"AntD CE",description:"React component lib based on Ant Design",actions:[{text:"Start",link:"/guide"},{text:"Components",link:"/components/form-input-list"}]}},h=[],y=[],g=e(25359),b=e.n(g),A=e(49811),D=e.n(A),M={"colorpicker-demo-0":{component:n.lazy(D()(b()().mark(function Ee(){var Se,te,z,I,x,R;return b()().wrap(function(O){for(;;)switch(O.prev=O.next){case 0:return O.next=2,Promise.all([e.e(265),e.e(979)]).then(e.bind(e,55979));case 2:return Se=O.sent,te=Se.Button,O.next=6,Promise.all([e.e(265),e.e(699),e.e(317)]).then(e.bind(e,23317));case 6:return z=O.sent,I=z.ColorPicker,O.next=10,Promise.resolve().then(e.t.bind(e,50959,19));case 10:return x=O.sent,R=x.useState,O.abrupt("return",{default:function(){var he=R("#000"),me=o()(he,2),X=me[0],J=me[1],Re=function(De){J(De)};return n.createElement(n.Fragment,null,n.createElement(I,{value:X,onChange:Re},n.createElement(te,{style:{color:X,borderColor:X,marginRight:"20px"}},"Pick Color")),n.createElement("span",{style:{color:X}},"currentColor: ",X))}});case 13:case"end":return O.stop()}},Ee)}))),asset:{type:"BLOCK",id:"colorpicker-demo-0",refAtomIds:["ColorPicker"],dependencies:{"index.tsx":{type:"FILE",value:`import { Button } from 'antd';
 import { ColorPicker } from 'antd-components-enhanced';
