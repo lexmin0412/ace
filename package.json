@@ -19,13 +19,13 @@
     "dev": "dumi dev",
     "docs:build": "dumi build",
     "doctor": "father doctor",
-    "lint": "npm run lint:es && npm run lint:css",
+    "lint": "pnpm lint:es && pnpm lint:css",
     "lint:css": "stylelint \"{src,test}/**/*.{css,less}\"",
     "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
     "prepare": "husky install && dumi setup",
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "pnpm build",
     "release": "release-it --ci",
-    "start": "npm run dev"
+    "start": "pnpm dev"
   },
   "commitlint": {
     "extends": [
