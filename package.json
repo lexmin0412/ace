@@ -2,6 +2,15 @@
   "name": "antd-components-enhanced",
   "version": "0.2.0",
   "description": "a react components library based on antd",
+  "keywords": [
+    "antd-components-enhanced",
+    "antd",
+    "react-components"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lexmin0412/antd-components-enhanced"
+  },
   "license": "MIT",
   "author": {
     "name": "lexmin0412",
