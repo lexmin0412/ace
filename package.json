@@ -52,13 +52,16 @@
   "dependencies": {
     "antd": "^5.3.3",
     "lodash": "^4.17.21",
+    "react-color": "^2.19.3",
     "release-it": "^15.10.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
+    "@types/antd": "^1.0.0",
     "@types/lodash": "^4.14.192",
     "@types/react": "^18.0.0",
+    "@types/react-color": "^3.0.6",
     "@types/react-dom": "^18.0.0",
     "@umijs/lint": "^4.0.0",
     "dumi": "^2.0.2",
