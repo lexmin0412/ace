@@ -5,4 +5,4 @@
 
 React component lib based on Ant Design, click <a href="https://lexmin0412.github.io/antd-components-enhanced" target="_blank">here</a> or the image below to read our docs.
 
-<a href="https://lexmin0412.github.io/antd-components-enhanced" target="_blank">![首页](./docs_index.png)</a>
+<a href="https://lexmin0412.github.io/antd-components-enhanced" target="_blank">![Index Page](https://raw.githubusercontent.com/lexmin0412/antd-components-enhanced/main/docs_index.png)</a>
