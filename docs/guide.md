@@ -12,6 +12,6 @@ pnpm install antd-components-enhanced
 import { FormInputList } from 'antd-components-enhanced';
 
 export default () => {
-  return <FormInputList placeholder="请输入域名" />;
+  return <FormInputList placeholder="Please Input Domain" />;
 };
 ```
