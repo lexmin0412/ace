@@ -7,7 +7,7 @@ import { ColumnsType } from 'antd/lib/table';
 import React, { useEffect, useState } from 'react';
 
 const DEFAULT_PAGE = 1;
-const DEFAULT_PAGE_SIZE = 10;
+const DEFAULT_PAGE_SIZE = 5;
 const ROW_KEY = 'id';
 
 interface UltraTableProps extends TableProps<unknown> {
