@@ -60,6 +60,7 @@
     ]
   },
   "dependencies": {
+    "ahooks": "^3.7.6",
     "antd": "^5.3.3",
     "lodash": "^4.17.21",
     "react-color": "^2.19.3",
