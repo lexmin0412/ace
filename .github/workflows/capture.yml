@@ -18,6 +18,7 @@ jobs:
         npm install pnpm -g
         git config --global user.email ${{secrets.USER_EMAIL}}
         git config --global user.name ${{secrets.USER_NAME}}
+        pnpm install
         pnpm capture-website
         git add .
         git commit -m \'chore\:\ update website image\'
