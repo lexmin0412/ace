@@ -5,8 +5,8 @@
 ### Basic Usage
 
 ```tsx
+import { ColorPicker } from '@lexmin0412/ace';
 import { Button } from 'antd';
-import { ColorPicker } from 'antd-components-enhanced';
 import { useState } from 'react';
 
 export default () => {
@@ -34,8 +34,8 @@ export default () => {
 ### Custom current label
 
 ```tsx
+import { ColorPicker } from '@lexmin0412/ace';
 import { Button } from 'antd';
-import { ColorPicker } from 'antd-components-enhanced';
 import { useState } from 'react';
 
 export default () => {
