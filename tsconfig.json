@@ -8,8 +8,8 @@
     "baseUrl": "./",
     "paths": {
       "@@/*": [".dumi/tmp/*"],
-      "antd-components-enhanced": ["src"],
-      "antd-components-enhanced/*": ["src/*", "*"]
+      "@lexmin0412/ace": ["src"],
+      "@lexmin0412/*": ["src/*", "*"]
     }
   },
   "include": [".dumi/**/*", ".dumirc.ts", "src/**/*", "global.d.ts"]

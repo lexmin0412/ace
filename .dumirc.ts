@@ -1,8 +1,8 @@
 import { defineConfig } from 'dumi';
 
 export default defineConfig({
-  base: '/antd-components-enhanced',
-  publicPath: '/antd-components-enhanced/',
+  base: '/ace',
+  publicPath: '/ace/',
   outputPath: 'docs-dist',
   themeConfig: {
     nav: [
@@ -12,7 +12,7 @@ export default defineConfig({
     name: 'AntD CE',
     footer: `<div>Copyright © 2023 | Powered by <a href="https://d.umijs.org/guide" target="_blank">dumi</a> | Authored by <a href="https://github.com/lexmin0412" target="_blank">Lexmin0412</a>.</div>`,
     socialLinks: {
-      github: 'https://github.com/lexmin0412/antd-components-enhanced',
+      github: 'https://github.com/lexmin0412/ace',
     },
   },
   locales: [{ id: 'en-US', name: 'English' }],

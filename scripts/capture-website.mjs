@@ -12,4 +12,4 @@ if (fs.existsSync(screenshotPath)) {
   fs.rmSync(screenshotPath)
 }
 
-await captureWebsite.file('https://lexmin0412.github.io/antd-components-enhanced', 'docs_index.png');
+await captureWebsite.file('https://lexmin0412.github.io/ace', 'docs_index.png');

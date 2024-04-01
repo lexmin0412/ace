@@ -6,7 +6,7 @@
 
 ```jsx
 import { TableColumnType } from 'antd'
-import { UltraTable } from 'antd-components-enhanced';
+import { UltraTable } from '@lexmin0412/ace';
 
 interface DataType {
   id: number
@@ -67,8 +67,8 @@ export default () => {
 ### Dispatch Request Manually
 
 ```tsx
+import { UltraTable, useUltraTable } from '@lexmin0412/ace';
 import { Button, TableColumnType } from 'antd';
-import { UltraTable, useUltraTable } from 'antd-components-enhanced';
 
 interface DataType {
   id: number;

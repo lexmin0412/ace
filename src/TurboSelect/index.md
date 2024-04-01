@@ -5,7 +5,7 @@
 ### Single Select
 
 ```jsx
-import { TurboSelect } from 'antd-components-enhanced';
+import { TurboSelect } from '@lexmin0412/ace';
 
 const options = [
   {
@@ -34,7 +34,7 @@ export default () => {
 ### Multi Select
 
 ```jsx
-import { TurboSelect } from 'antd-components-enhanced';
+import { TurboSelect } from '@lexmin0412/ace';
 
 const options = [
   {

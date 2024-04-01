@@ -5,7 +5,7 @@
 ### Basic Usage
 
 ```jsx
-import { LeaveModal } from 'antd-components-enhanced';
+import { LeaveModal } from '@lexmin0412/ace';
 
 export default () => {
   return <LeaveModal />;

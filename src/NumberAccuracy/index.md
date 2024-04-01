@@ -5,7 +5,7 @@
 ### Basic Usage
 
 ```jsx
-import { NumberAccuracy } from 'antd-components-enhanced';
+import { NumberAccuracy } from '@lexmin0412/ace';
 
 export default () => {
   return <NumberAccuracy />;
@@ -15,7 +15,7 @@ export default () => {
 ### Custom Container Style
 
 ```jsx
-import { NumberAccuracy } from 'antd-components-enhanced';
+import { NumberAccuracy } from '@lexmin0412/ace';
 
 export default () => {
   return (
@@ -31,7 +31,7 @@ export default () => {
 ### Custom Max Limit
 
 ```jsx
-import { NumberAccuracy } from 'antd-components-enhanced';
+import { NumberAccuracy } from '@lexmin0412/ace';
 
 export default () => {
   return (
