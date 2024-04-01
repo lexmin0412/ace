@@ -1,15 +1,16 @@
 {
-  "name": "antd-components-enhanced",
+  "name": "@lexmin0412/ace",
   "version": "0.5.0",
-  "description": "a react components library based on antd",
+  "description": "ACE, means Antd Components Enhanced, a lib with several extreamly enhanced react components based on antd",
   "keywords": [
+    "ace",
     "antd-components-enhanced",
     "antd",
     "react-components"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/lexmin0412/antd-components-enhanced"
+    "url": "https://github.com/lexmin0412/ace"
   },
   "license": "MIT",
   "author": {
