@@ -9,7 +9,7 @@ export default defineConfig({
       { title: 'Guide', link: '/guide' },
       { title: 'Components', link: '/components/color-picker' },
     ],
-    name: 'AntD CE',
+    name: 'ACE',
     footer: `<div>Copyright © 2023 | Powered by <a href="https://d.umijs.org/guide" target="_blank">dumi</a> | Authored by <a href="https://github.com/lexmin0412" target="_blank">Lexmin0412</a>.</div>`,
     socialLinks: {
       github: 'https://github.com/lexmin0412/ace',

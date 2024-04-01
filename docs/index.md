@@ -1,7 +1,7 @@
 ---
 hero:
-  title: AntD CE
-  description: React component lib based on Ant Design
+  title: A C E
+  description: A lib with several extreamly enhanced react components based on Ant Design.
   actions:
     - text: Start
       link: /guide
