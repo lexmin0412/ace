@@ -42,7 +42,7 @@ export default function NumberAccuracy(props: NumberAccuracyProps) {
     <div className="flex items-center" style={{ ...style }}>
       <Select
         className="flex-1"
-        placeholder="请选择精度"
+        placeholder="请选择精确度"
         value={selectorValue}
         options={[
           {
