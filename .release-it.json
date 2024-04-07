@@ -3,11 +3,8 @@
     "commitMessage": "chore: release v${version}"
   },
   "github": {
-    "release": false,
-    "tag": false,
-    "commit": false,
-    "push": false,
-    "releaseName": "Release v${version}",
+    "release": true,
+    "releaseName": "v${version}",
     "tokenRef": "GH_TOKEN"
   },
   "npm": {
