@@ -3,7 +3,7 @@ name: release new version
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   publish-npm:
