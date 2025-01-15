@@ -1,6 +1,7 @@
 import { InputNumber, Select } from 'antd';
-import React, { useEffect, useMemo, useState } from 'react';
-import './index.less';
+import type React from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import './index.css';
 
 interface NumberAccuracyProps {
   style?: React.CSSProperties;
@@ -10,7 +11,7 @@ interface NumberAccuracyProps {
   max?: number;
 }
 
-export default function NumberAccuracy(props: NumberAccuracyProps) {
+export const NumberAccuracy = (props: NumberAccuracyProps) => {
   // @ts-ignore
   const { style, value: propsValue, onChange, max = 10 } = props;
   const [value, setValue] = useState<number | undefined>(0);
@@ -23,6 +24,7 @@ export default function NumberAccuracy(props: NumberAccuracyProps) {
     return !value || [0, 1, 2].includes(value) ? value : 'custom';
   }, [value]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const isCustom = useMemo(() => {
     return selectorValue === 'custom';
   }, [value]);

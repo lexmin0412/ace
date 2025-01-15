@@ -1,5 +1,5 @@
-import { DefaultOptionType } from 'antd/lib/select';
-import { Key } from 'react';
+import type { DefaultOptionType } from 'antd/lib/select';
+import type { Key } from 'react';
 
 /**
  * 合法选项过滤
@@ -7,7 +7,7 @@ import { Key } from 'react';
 export const availableValuesFilter = (
   value: Array<Key | DefaultOptionType>,
   options: DefaultOptionType[] = [],
-  labelInValue: boolean = false,
+  labelInValue = false,
 ) => {
   return value?.filter((valueItem) =>
     options?.some((item) => {

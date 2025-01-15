@@ -1,16 +1,14 @@
 {
   "compilerOptions": {
+    "lib": ["DOM", "ES2021"],
+    "module": "ESNext",
+    "jsx": "react-jsx",
     "strict": true,
-    "declaration": true,
     "skipLibCheck": true,
-    "esModuleInterop": true,
-    "jsx": "react",
-    "baseUrl": "./",
-    "paths": {
-      "@@/*": [".dumi/tmp/*"],
-      "@lexmin0412/ace": ["src"],
-      "@lexmin0412/*": ["src/*", "*"]
-    }
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "bundler",
+    "useDefineForClassFields": true
   },
-  "include": [".dumi/**/*", ".dumirc.ts", "src/**/*", "global.d.ts"]
+  "include": ["src"]
 }

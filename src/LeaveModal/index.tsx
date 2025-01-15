@@ -1,7 +1,7 @@
 import { Modal } from 'antd';
 import React, { useEffect } from 'react';
 
-const popStateListener = function () {
+const popStateListener = () => {
   history.pushState(null, '', window.location.href);
   Modal.confirm({
     title: '确定离开此页面？',
@@ -12,7 +12,7 @@ const popStateListener = function () {
   });
 };
 
-export default function LeaveModal() {
+export const LeaveModal = () => {
   useEffect(() => {
     // 浏览器后退提示 start
     history.pushState(null, '', window.location.href);
@@ -24,7 +24,7 @@ export default function LeaveModal() {
     // IE 需要显式返回一个非空字符串，才会弹出对话框
     // 大多数浏览器在无法自定义文本
     // 综上，采用以下写法以期得到最大兼容。
-    window.addEventListener('beforeunload', function (e) {
+    window.addEventListener('beforeunload', (e) => {
       const confirmationMessage = '确认关闭窗口？';
       e.returnValue = confirmationMessage;
       return confirmationMessage;

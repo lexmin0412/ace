@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default function IconAdd() {
   return (
     <div
@@ -19,7 +17,7 @@ export default function IconAdd() {
           transform: 'translate(-50%, -50%)',
           background: '#0D6EFF',
         }}
-      ></div>
+      />
       <div
         style={{
           position: 'absolute',
@@ -30,7 +28,7 @@ export default function IconAdd() {
           height: '14px',
           background: '#0D6EFF',
         }}
-      ></div>
+      />
     </div>
   );
 }

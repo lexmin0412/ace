@@ -2,9 +2,10 @@
  * ultra table
  */
 import { usePagination } from 'ahooks';
-import { Table, TableProps } from 'antd';
-import { ColumnsType } from 'antd/lib/table';
-import React, { useEffect, useState } from 'react';
+import { Table, type TableProps } from 'antd';
+import type { ColumnsType } from 'antd/lib/table';
+import type React from 'react';
+import { useEffect, useState } from 'react';
 
 const DEFAULT_PAGE = 1;
 const DEFAULT_PAGE_SIZE = 5;
@@ -18,7 +19,7 @@ interface UltraTableProps extends TableProps<unknown> {
   }>;
   rowKey?: string;
   refreshDeps?: unknown[];
-  renderTotal?: (total: number) => JSX.Element;
+  renderTotal?: (total: number) => React.ReactNode;
 }
 
 /**
@@ -32,7 +33,7 @@ export const useUltraTable = () => {
   };
 };
 
-export default function UltraTable(props: UltraTableProps) {
+export const UltraTable = (props: UltraTableProps) => {
   const {
     columns,
     rowKey = ROW_KEY,
@@ -58,6 +59,7 @@ export default function UltraTable(props: UltraTableProps) {
     },
   );
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     runAsync({
       current: DEFAULT_PAGE,

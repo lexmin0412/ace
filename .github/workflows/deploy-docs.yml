@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - dev
 
 jobs:
   main:
@@ -15,12 +16,12 @@ jobs:
 
       - name: 安装依赖
         run: |
-          npm install pnpm -g
+          npm install pnpm@8 -g
           pnpm install
-          pnpm docs:build
+          pnpm build:storybook
       - name: 部署应用
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
           ACCESS_TOKEN: ${{ secrets.GH_TOKEN }}
           BRANCH: gh-pages
-          FOLDER: docs-dist
+          FOLDER: storybook-static
