@@ -126,7 +126,7 @@ const TurboSelectMulti = (props: TurboSelectInnerProps) => {
   const handleSearch = (searchValue: string) => {
     searching.current = !!searchValue;
     // 触发默认的 onSearch 行为
-    baseProps.onSearch?.(searchValue, baseProps.value as unknown as string[]);
+    baseProps.onSearch?.(searchValue);
   };
 
   useImperativeHandle(parentRef, () => ({

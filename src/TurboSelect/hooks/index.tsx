@@ -69,7 +69,7 @@ interface UseCommonHooksProps extends TurboSelectProps {
 export const useSelectCommonHooks = (
   props: UseCommonHooksProps,
   turboSelectRef: any,
-) => {
+): SelectProps => {
   const {
     /** 非 select 原生 props begin */
     searchIdsGetter,
