@@ -48,6 +48,7 @@
   "dependencies": {
     "@ant-design/v5-patch-for-react-19": "^1.0.3",
     "antd": "^5.23.0",
+    "json-rules-engine": "^7.3.0",
     "lodash": "^4.17.21",
     "release-it": "^15.10.0"
   },
