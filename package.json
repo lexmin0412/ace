@@ -71,15 +71,12 @@
     "ahooks": "^3.8.4",
     "jsdom": "^25.0.1",
     "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "storybook": "^8.4.7",
     "storybook-addon-rslib": "^0.1.7",
     "storybook-react-rsbuild": "^0.1.7",
     "typescript": "^5.7.2",
     "vitest": "^2.1.8"
-  },
-  "peerDependencies": {
-    "react": ">=16.9.0",
-    "react-dom": ">=16.9.0"
   },
   "packageManager": "pnpm@8.1.0",
   "engines": {
