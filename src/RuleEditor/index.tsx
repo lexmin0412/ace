@@ -1,36 +1,36 @@
-import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons'
-import { Input, InputNumber, Select } from 'antd'
-import type { DefaultOptionType } from 'antd/es/select'
-import type { Rule } from 'json-rules-engine'
-import React, { useContext } from 'react'
+import { MinusCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import { Input, InputNumber, message, Select } from "antd";
+import type { DefaultOptionType } from "antd/es/select";
+import type { Rule } from "json-rules-engine";
+import React, { type CSSProperties, useContext } from "react";
 
 /**
  * 具体规则节点
  */
 interface ILeafRule {
-  fact?: string
-  operator?: string
-  value?: any
+  fact?: string;
+  operator?: string;
+  value?: any;
 }
 
 /**
  * 规则节点
  */
-type IRule = ILogicRule | ILeafRule
+type IRule = ILogicRule | ILeafRule;
 
 /**
  * 逻辑运算符
  */
-type ILogicOperator = 'all' | 'any'
+type ILogicOperator = "all" | "any";
 
 /**
  * 逻辑节点（根节点一定是逻辑节点，使用此类型）
  */
-export type ILogicRule = Record<ILogicOperator, IRule[]>
+export type ILogicRule = Record<ILogicOperator, IRule[]>;
 
 enum LogicOperatorEnum {
-  ALL = 'all',
-  ANY = 'any',
+  ALL = "all",
+  ANY = "any",
 }
 
 type LogicOperatorType = `${LogicOperatorEnum}`;
@@ -42,26 +42,26 @@ const LoginOperatorOptions = Object.keys(LogicOperatorEnum).map((key) => {
   return {
     label: key,
     value: LogicOperatorEnum[key as keyof typeof LogicOperatorEnum],
-  }
-})
+  };
+});
 
 export interface IProperty {
   /**
    * 属性名称
    */
-  title: string,
+  title: string;
   /**
    * 属性 key
    */
-  code: string,
+  code: string;
   /**
    * 属性类型
    */
-  type: keyof typeof OperatorTypeMap,
+  type: keyof typeof OperatorTypeMap;
   /**
    * 属性的控件类型，可选值控件根据 type 决定
    */
-  widget: 'text' | 'number' | 'mtText' | 'select',
+  widget: "text" | "number" | "mtText" | "select";
   /**
    * 控件属性
    */
@@ -69,221 +69,477 @@ export interface IProperty {
     /**
      * 下拉选项
      */
-    options?: DefaultOptionType[]
+    options?: DefaultOptionType[];
     /**
      * 异步下拉选项
      */
-    dynamicOptions?: (keyword: string, ids?: string[]) => Promise<DefaultOptionType[]>
-  }
+    dynamicOptions?: (
+      keyword: string,
+      ids?: string[]
+    ) => Promise<DefaultOptionType[]>;
+  };
 }
 
 interface IRuleEditorProps {
   /**
    * 规则
    */
-  value?: ILogicRule
+  value?: ILogicRule;
   /**
    * 规则改变事件
    */
-  onChange?: (value: Rule) => void
+  onChange?: (value: Rule) => void;
   /**
    * 可选属性列表
    */
-  properties: IProperty[]
+  properties: IProperty[];
 }
 
 // const engine = new Engine()
 
 const OperatorTypeMap = {
-  String: ['equal', 'notEqual'],
-  Numeric: ['equal', 'notEqual', 'greaterThan', 'greaterThanInclusive', 'lessThan', 'lessThanInclusive'],
-  Array: ['in', 'notIn', 'contains', 'doesNotContain '],
-}
+  String: ["equal", "notEqual"],
+  Numeric: [
+    "equal",
+    "notEqual",
+    "greaterThan",
+    "greaterThanInclusive",
+    "lessThan",
+    "lessThanInclusive",
+  ],
+  Array: ["in", "notIn", "contains", "doesNotContain "],
+};
 
 const RuleEditorContext = React.createContext<{
-  properties: IProperty[]
+  properties: IProperty[];
 }>({
-  properties: []
-})
+  properties: [],
+});
 
 /**
  * 叶子节点编辑器
  */
 const LeafRuleEditor = (props: {
-  conditions: ILeafRule
-  onConditionsChange: (conditions: ILeafRule) => void
-  onAddLeaf?: () => void
-  onRemoveLeaf?: () => void
+  conditions: ILeafRule;
+  onConditionsChange: (conditions: ILeafRule) => void;
+  onAddLeaf?: () => void;
+  onRemoveLeaf?: () => void;
 }) => {
-  const { properties } = useContext(RuleEditorContext)
-  const { conditions, onConditionsChange, onAddLeaf, onRemoveLeaf } = props
+  const { properties } = useContext(RuleEditorContext);
+  const { conditions, onConditionsChange, onAddLeaf, onRemoveLeaf } = props;
 
   // 通过属性列表映射出下拉选项
   const propertyOptions = properties.map((item) => {
     return {
       label: item.title,
       value: item.code,
-    }
-  })
+    };
+  });
 
   // 通过选定的 fact 找到可选的运算符列表
-  const factItem = properties.find((item) => item.code === conditions.fact)
-  const operators = factItem ? OperatorTypeMap[(factItem as IProperty).type] : []
+  const factItem = properties.find((item) => item.code === conditions.fact);
+  const operators = factItem
+    ? OperatorTypeMap[(factItem as IProperty).type]
+    : [];
 
-  return <div>
-    <div style={{
-      display: 'flex',
-      alignItems: 'center',
-      marginBottom: '10px'
-    }}>
-      <Select placeholder='属性' style={{
-        width: '160px'
-      }} options={propertyOptions} value={conditions.fact} onChange={(value) => onConditionsChange({
-        ...conditions,
-        fact: value
-      })} />
-      <Select style={{
-        width: '160px',
-        marginLeft: '10px'
-      }} placeholder='运算符' options={operators.map((item) => {
-        return {
-          label: item,
-          value: item,
-        }
-      })} value={conditions.operator} onChange={(value) => onConditionsChange({
-        ...conditions,
-        operator: value
-      })} />
-      {
-        factItem?.widget === 'text' ?
-          <Input style={{
-            width: '160px',
-            marginLeft: '10px'
-          }} type='text' placeholder='请输入' value={conditions.value} onChange={(value) => onConditionsChange({
-            ...conditions,
-            value: value
-          })} />
-          :
-          factItem?.widget === 'number' ?
-            <InputNumber style={{
-              width: '160px',
-              marginLeft: '10px'
-            }} type='number' {...factItem.controlProps} placeholder='请输入' value={conditions.value} onChange={(value) => onConditionsChange({
+  return (
+    <div>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          marginBottom: "10px",
+        }}
+      >
+        <Select
+          placeholder="属性"
+          style={{
+            width: "160px",
+          }}
+          options={propertyOptions}
+          value={conditions.fact}
+          onChange={(value) =>
+            onConditionsChange({
               ...conditions,
-              value: value
-            })} />
-            :
-            factItem?.widget === 'select' ?
-              <Select mode={factItem.type === 'String' ? undefined : 'multiple'} style={{
-                width: '160px',
-                marginLeft: '10px'
-              }} placeholder='值' options={factItem.controlProps.options} value={conditions.value} onChange={(value) => onConditionsChange({
+              fact: value,
+            })
+          }
+        />
+        <Select
+          style={{
+            width: "160px",
+            marginLeft: "10px",
+          }}
+          placeholder="运算符"
+          options={operators.map((item) => {
+            return {
+              label: item,
+              value: item,
+            };
+          })}
+          value={conditions.operator}
+          onChange={(value) =>
+            onConditionsChange({
+              ...conditions,
+              operator: value,
+            })
+          }
+        />
+        {factItem?.widget === "text" ? (
+          <Input
+            style={{
+              width: "160px",
+              marginLeft: "10px",
+            }}
+            type="text"
+            placeholder="请输入"
+            value={conditions.value}
+            onChange={(value) =>
+              onConditionsChange({
                 ...conditions,
-                value: value
-              })} />
-              : <Input style={{
-                width: '160px',
-                marginLeft: '10px'
-              }} type='text' placeholder='请输入' value={conditions.value} onChange={(value) => onConditionsChange({
+                value: value,
+              })
+            }
+          />
+        ) : factItem?.widget === "number" ? (
+          <InputNumber
+            style={{
+              width: "160px",
+              marginLeft: "10px",
+            }}
+            type="number"
+            {...factItem.controlProps}
+            placeholder="请输入"
+            value={conditions.value}
+            onChange={(value) =>
+              onConditionsChange({
                 ...conditions,
-                value: value
-              })} />
-      }
-      {/* 添加和删除按钮 */}
-      <PlusCircleOutlined style={{
-        color: '#888',
-        marginLeft: '10px',
-        cursor: 'pointer'
-      }} onClick={onAddLeaf} />
-      <MinusCircleOutlined style={{
-        color: '#888',
-        marginLeft: '10px',
-        cursor: 'pointer'
-      }} onClick={onRemoveLeaf} />
-
+                value: value,
+              })
+            }
+          />
+        ) : factItem?.widget === "select" ? (
+          <Select
+            mode={factItem.type === "String" ? undefined : "multiple"}
+            style={{
+              width: "160px",
+              marginLeft: "10px",
+            }}
+            placeholder="值"
+            options={factItem.controlProps.options}
+            value={conditions.value}
+            onChange={(value) =>
+              onConditionsChange({
+                ...conditions,
+                value: value,
+              })
+            }
+          />
+        ) : (
+          <Input
+            style={{
+              width: "160px",
+              marginLeft: "10px",
+            }}
+            type="text"
+            placeholder="请输入"
+            value={conditions.value}
+            onChange={(value) =>
+              onConditionsChange({
+                ...conditions,
+                value: value,
+              })
+            }
+          />
+        )}
+        {/* 添加和删除按钮 */}
+        {/* <PlusCircleOutlined
+          style={{
+            color: "#888",
+            marginLeft: "10px",
+            cursor: "pointer",
+          }}
+          onClick={onAddLeaf}
+        /> */}
+        <MinusCircleOutlined
+          style={{
+            color: "#888",
+            marginLeft: "10px",
+            cursor: "pointer",
+          }}
+          onClick={onRemoveLeaf}
+        />
+      </div>
     </div>
-  </div>
-}
+  );
+};
 
 const RuleEditorNode = (props: {
-  conditions: IRule
-  onConditionsChange: (conditions: IRule) => void
-  onAddLeaf?: () => void
-  onRemoveLeaf?: () => void
+  /**
+   * 是否是根节点
+   */
+  isRoot?: boolean;
+  conditions: IRule;
+  onConditionsChange: (conditions: IRule) => void;
+  onAddLeaf?: () => void;
+  onRemoveLeaf?: () => void;
+  onRemoveLogic?: () => void;
 }) => {
-  const { conditions, onAddLeaf, onRemoveLeaf, onConditionsChange } = props
-  const { properties } = useContext(RuleEditorContext)
-  const logicOperator = Object.keys(conditions)[0] as LogicOperatorType
+  const {
+    isRoot,
+    conditions,
+    onAddLeaf,
+    onRemoveLeaf,
+    onRemoveLogic,
+    onConditionsChange,
+  } = props;
+  const logicOperator = Object.keys(conditions)[0] as LogicOperatorType;
 
   // 如果没有 any 或者 all 则直接渲染 item
   if (!(conditions as ILogicRule).any && !(conditions as ILogicRule).all) {
-    return <LeafRuleEditor conditions={conditions as ILeafRule} onConditionsChange={onConditionsChange} onAddLeaf={onAddLeaf} onRemoveLeaf={onRemoveLeaf} />
+    return (
+      <LeafRuleEditor
+        conditions={conditions as ILeafRule}
+        onConditionsChange={onConditionsChange}
+        onAddLeaf={onAddLeaf}
+        onRemoveLeaf={onRemoveLeaf}
+      />
+    );
   }
 
   const handleConditionChange = (changedIndex: number, value: IRule) => {
-    const newRules = (conditions as ILogicRule)[logicOperator].map((item, index) => {
-      if (changedIndex === index) {
-        return value
+    const newRules = (conditions as ILogicRule)[logicOperator].map(
+      (item, index) => {
+        if (changedIndex === index) {
+          return value;
+        }
+        return item;
       }
-      return item
-    })
+    );
     onConditionsChange({
-      [logicOperator]: newRules
-    } as ILogicRule)
-  }
+      [logicOperator]: newRules,
+    } as ILogicRule);
+  };
 
   const handleRemoveLeaf = (index: number) => {
-    const newRules = (conditions as ILogicRule)[logicOperator].filter((item, i) => {
-      return i !== index
-    })
+    const newRules = (conditions as ILogicRule)[logicOperator].filter(
+      (item, i) => {
+        return i !== index;
+      }
+    );
+    if (newRules.length <= 0) {
+      message.error('至少保留一个条件/条件组')
+      return
+    }
     onConditionsChange({
-      [logicOperator]: newRules
-    } as ILogicRule)
-  }
+      [logicOperator]: newRules,
+    } as ILogicRule);
+  };
+
+  const handleRemoveLogic = (index: number) => {
+    const newRules = (conditions as ILogicRule)[logicOperator].filter(
+      (item, i) => {
+        return i !== index;
+      }
+    );
+    if (newRules.length <= 0) {
+      message.error('至少保留一个条件/条件组')
+      return
+    }
+    onConditionsChange({
+      [logicOperator]: newRules,
+    } as ILogicRule);
+  };
 
   const handleAddLeaf = () => {
     const newLeaf: ILeafRule = {
       fact: undefined,
       operator: undefined,
       value: undefined,
-    }
+    };
     onConditionsChange({
-      [logicOperator]: [...(conditions as ILogicRule)[logicOperator], newLeaf]
-    } as ILogicRule)
+      [logicOperator]: [...(conditions as ILogicRule)[logicOperator], newLeaf],
+    } as ILogicRule);
+  };
+
+  const handleAddLogic = () => {
+    const newLogic = {
+      all: [
+        {
+          fact: undefined,
+          operator: undefined,
+          value: undefined,
+        },
+        {
+          fact: undefined,
+          operator: undefined,
+          value: undefined,
+        },
+      ],
+    } as ILogicRule;
+    onConditionsChange({
+      [logicOperator]: [...(conditions as ILogicRule)[logicOperator], newLogic],
+    });
+  };
+
+  const groupStyle: CSSProperties = {
+    paddingTop: "10px",
+    marginBottom: "10px",
+    paddingRight: "10px",
+  };
+
+  if (!isRoot) {
+    groupStyle.border = "1px dashed #ddd";
+    groupStyle.borderRadius = "8px";
   }
 
-  return <div style={{
-    display: 'flex',
-    alignItems: 'center',
-  }}>
-    <Select style={{
-      width: '80px'
-    }} variant='borderless' value={logicOperator} options={LoginOperatorOptions} onChange={(value: LogicOperatorType) => {
-      // @ts-ignore
-      const newValue: ILogicRule = {
-        [value as LogicOperatorType]: (conditions as ILogicRule)[logicOperator]
-      }
-      onConditionsChange(newValue)
-    }} />
+  return (
+    <div style={groupStyle}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <Select
+          style={{
+            width: "80px",
+          }}
+          variant="borderless"
+          value={logicOperator}
+          options={LoginOperatorOptions}
+          onChange={(value: LogicOperatorType) => {
+            // @ts-ignore
+            const newValue: ILogicRule = {
+              [value as LogicOperatorType]: (conditions as ILogicRule)[
+                logicOperator
+              ],
+            };
+            onConditionsChange(newValue);
+          }}
+        />
 
-    <div>
-      {
-        (conditions as ILogicRule)[logicOperator].map((item, index: number) => {
-          return (
-            <RuleEditorNode key={index} conditions={item} onConditionsChange={(newConditions) => handleConditionChange(index, newConditions)} onAddLeaf={handleAddLeaf} onRemoveLeaf={() => handleRemoveLeaf(index)} />
-          )
-        })
-      }
+        <div>
+          {/* 条件组 */}
+          {(conditions as ILogicRule)[logicOperator].map(
+            (item, index: number) => {
+              return (
+                <RuleEditorNode
+                  key={index}
+                  conditions={item}
+                  onConditionsChange={(newConditions) =>
+                    handleConditionChange(index, newConditions)
+                  }
+                  onAddLeaf={handleAddLeaf}
+                  onRemoveLeaf={() => handleRemoveLeaf(index)}
+                  onRemoveLogic={() => handleRemoveLogic(index)}
+                />
+              );
+            }
+          )}
+        </div>
+      </div>
+
+      {/* 新增条件 */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          marginLeft: "80px",
+        }}
+      >
+        {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginRight: "10px",
+            marginBottom: "10px",
+            color: "#333",
+            cursor: "pointer",
+          }}
+          onClick={() => handleAddLeaf()}
+        >
+          <PlusCircleOutlined
+            style={{
+              cursor: "pointer",
+            }}
+          />
+          <span
+            style={{
+              fontSize: "14px",
+              marginLeft: "4px",
+            }}
+          >
+            添加条件
+          </span>
+        </div>
+        {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginRight: "10px",
+            marginBottom: "10px",
+            color: "#333",
+            cursor: "pointer",
+          }}
+          onClick={handleAddLogic}
+        >
+          <PlusCircleOutlined
+            style={{
+              cursor: "pointer",
+            }}
+          />
+          <span
+            style={{
+              fontSize: "14px",
+              marginLeft: "4px",
+            }}
+          >
+            添加条件组
+          </span>
+        </div>
+        {!isRoot ? (
+          // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginRight: "10px",
+              marginBottom: "10px",
+              color: "#333",
+              cursor: "pointer",
+            }}
+            onClick={onRemoveLogic}
+          >
+            <MinusCircleOutlined
+              style={{
+                cursor: "pointer",
+              }}
+            />
+            <span
+              style={{
+                fontSize: "14px",
+                marginLeft: "4px",
+              }}
+            >
+              移除当前组
+            </span>
+          </div>
+        ) : null}
+      </div>
     </div>
-  </div>
-}
+  );
+};
 
 export const RuleEditor = (props: IRuleEditorProps) => {
+  const { value, onChange, properties = [] } = props;
 
-  const { value, onChange, properties = [] } = props
-
-  return <RuleEditorContext.Provider value={{ properties }}>
-    {/* @ts-ignore */}
-    <RuleEditorNode conditions={value} onConditionsChange={onChange} />
-  </RuleEditorContext.Provider>
-}
+  return (
+    <RuleEditorContext.Provider value={{ properties }}>
+      {/* @ts-ignore */}
+      <RuleEditorNode isRoot conditions={value} onConditionsChange={onChange} />
+    </RuleEditorContext.Provider>
+  );
+};

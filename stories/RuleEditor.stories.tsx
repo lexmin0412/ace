@@ -1,7 +1,7 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { RuleEditor } from "../src";
-import '@ant-design/v5-patch-for-react-19';
+import "@ant-design/v5-patch-for-react-19";
 import type { ILogicRule, IProperty } from "../src/RuleEditor";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
@@ -29,73 +29,75 @@ type Story = StoryObj<typeof meta>;
 export const BasicUsage: Story = {
   args: {},
   render: () => {
-
     const DefaultValue = {
-      any: [{
-        all: [{
-          fact: 'category',
-          operator: 'equal',
-          value: 'basic'
-        }, {
-          fact: 'count',
-          operator: 'greaterThanInclusive',
-          value: 5
-        }]
-      }, {
-        all: [{
-          fact: 'category',
-          operator: 'equal',
-          value: 'advanced'
-        }, {
-          fact: 'count',
-          operator: 'lessThanInclusive',
-          value: 5
-        }]
-      }]
-    }
+      any: [
+        {
+          all: [
+            { fact: "category", operator: "equal", value: "basic" },
+            { fact: "count", operator: "greaterThanInclusive", value: 5 },
+          ],
+        },
+        {
+          all: [
+            { fact: "category", operator: "equal", value: "advanced" },
+            { fact: "count", operator: "notEqual", value: 5 },
+          ],
+        },
+      ],
+    };
 
     const DefaultProperties: IProperty[] = [
       {
-        title: '分类',
-        code: 'category',
-        type: 'String',
-        widget: 'select',
+        title: "分类",
+        code: "category",
+        type: "String",
+        widget: "select",
         controlProps: {
           options: [
             {
-              label: '基本信息',
-              value: 'basic',
+              label: "基本信息",
+              value: "basic",
             },
             {
-              label: '高级配置',
-              value: 'advanced',
+              label: "高级配置",
+              value: "advanced",
             },
           ],
-        }
+        },
       },
       {
-        title: '使用次数',
-        code: 'count',
-        type: 'Numeric',
-        widget: 'number',
+        title: "使用次数",
+        code: "count",
+        type: "Numeric",
+        widget: "number",
         controlProps: {
           min: 0,
           max: 100,
           step: 1,
-        }
-      }
-    ]
+        },
+      },
+    ];
 
     const [value, setValue] = React.useState<ILogicRule>(DefaultValue);
     const onChange = (newValue: ILogicRule) => {
       setValue(newValue);
-    }
-    return <>
-      <RuleEditor properties={DefaultProperties} value={value} onChange={onChange} />
+    };
+    return (
+      <>
+        <RuleEditor
+          properties={DefaultProperties}
+          value={value}
+          onChange={onChange}
+        />
 
-      <div style={{
-        marginTop: '20px'
-      }}>规则：{JSON.stringify(value, null, 2)}</div>
-    </>
+        <div
+          style={{
+            marginTop: "20px",
+          }}
+        >
+          规则：{JSON.stringify(value, null, 2)}
+        </div>
+      </>
+    );
   },
 };
