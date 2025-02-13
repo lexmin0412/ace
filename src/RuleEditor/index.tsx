@@ -1,3 +1,4 @@
+import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import { Input, InputNumber, Select } from 'antd'
 import type { DefaultOptionType } from 'antd/es/select'
 import type { Rule } from 'json-rules-engine'
@@ -7,9 +8,9 @@ import React, { useContext } from 'react'
  * 具体规则节点
  */
 interface ILeafRule {
-  fact: string
-  operator: string
-  value: any
+  fact?: string
+  operator?: string
+  value?: any
 }
 
 /**
@@ -111,9 +112,11 @@ const RuleEditorContext = React.createContext<{
 const LeafRuleEditor = (props: {
   conditions: ILeafRule
   onConditionsChange: (conditions: ILeafRule) => void
+  onAddLeaf?: () => void
+  onRemoveLeaf?: () => void
 }) => {
   const { properties } = useContext(RuleEditorContext)
-  const { conditions, onConditionsChange } = props
+  const { conditions, onConditionsChange, onAddLeaf, onRemoveLeaf } = props
 
   // 通过属性列表映射出下拉选项
   const propertyOptions = properties.map((item) => {
@@ -178,8 +181,25 @@ const LeafRuleEditor = (props: {
                 ...conditions,
                 value: value
               })} />
-              : null
+              : <Input style={{
+                width: '160px',
+                marginLeft: '10px'
+              }} type='text' placeholder='请输入' value={conditions.value} onChange={(value) => onConditionsChange({
+                ...conditions,
+                value: value
+              })} />
       }
+      {/* 添加和删除按钮 */}
+      <PlusCircleOutlined style={{
+        color: '#888',
+        marginLeft: '10px',
+        cursor: 'pointer'
+      }} onClick={onAddLeaf} />
+      <MinusCircleOutlined style={{
+        color: '#888',
+        marginLeft: '10px',
+        cursor: 'pointer'
+      }} onClick={onRemoveLeaf} />
 
     </div>
   </div>
@@ -188,14 +208,17 @@ const LeafRuleEditor = (props: {
 const RuleEditorNode = (props: {
   conditions: IRule
   onConditionsChange: (conditions: IRule) => void
+  onAddLeaf?: () => void
+  onRemoveLeaf?: () => void
 }) => {
-  const { conditions, onConditionsChange } = props
+  const { conditions, onAddLeaf, onRemoveLeaf, onConditionsChange } = props
   const { properties } = useContext(RuleEditorContext)
+  const logicOperator = Object.keys(conditions)[0] as LogicOperatorType
+
   // 如果没有 any 或者 all 则直接渲染 item
   if (!(conditions as ILogicRule).any && !(conditions as ILogicRule).all) {
-    return <LeafRuleEditor conditions={conditions as ILeafRule} onConditionsChange={onConditionsChange} />
+    return <LeafRuleEditor conditions={conditions as ILeafRule} onConditionsChange={onConditionsChange} onAddLeaf={onAddLeaf} onRemoveLeaf={onRemoveLeaf} />
   }
-  const logicOperator = Object.keys(conditions)[0] as LogicOperatorType
 
   const handleConditionChange = (changedIndex: number, value: IRule) => {
     const newRules = (conditions as ILogicRule)[logicOperator].map((item, index) => {
@@ -206,6 +229,26 @@ const RuleEditorNode = (props: {
     })
     onConditionsChange({
       [logicOperator]: newRules
+    } as ILogicRule)
+  }
+
+  const handleRemoveLeaf = (index: number) => {
+    const newRules = (conditions as ILogicRule)[logicOperator].filter((item, i) => {
+      return i !== index
+    })
+    onConditionsChange({
+      [logicOperator]: newRules
+    } as ILogicRule)
+  }
+
+  const handleAddLeaf = () => {
+    const newLeaf: ILeafRule = {
+      fact: undefined,
+      operator: undefined,
+      value: undefined,
+    }
+    onConditionsChange({
+      [logicOperator]: [...(conditions as ILogicRule)[logicOperator], newLeaf]
     } as ILogicRule)
   }
 
@@ -227,7 +270,7 @@ const RuleEditorNode = (props: {
       {
         (conditions as ILogicRule)[logicOperator].map((item, index: number) => {
           return (
-            <RuleEditorNode key={index} conditions={item} onConditionsChange={(newConditions) => handleConditionChange(index, newConditions)} />
+            <RuleEditorNode key={index} conditions={item} onConditionsChange={(newConditions) => handleConditionChange(index, newConditions)} onAddLeaf={handleAddLeaf} onRemoveLeaf={() => handleRemoveLeaf(index)} />
           )
         })
       }
