@@ -35,10 +35,8 @@ const config: StorybookConfig = {
     check: true,
   },
   async rsbuildFinal(config) {
-    config.server = {
-      ...config.server,
-      base: '/ace/'
-    }
+    config.output ??= {}
+    config.output.assetPrefix = '/ace/'
     return config
   }
 };
