@@ -115,62 +115,74 @@ const LeafRuleEditor = (props: {
   const { properties } = useContext(RuleEditorContext)
   const { conditions, onConditionsChange } = props
 
-    // 通过属性列表映射出下拉选项
-    const propertyOptions = properties.map((item) => {
-      return {
-        label: item.title,
-        value: item.code,
-      }
-    })
+  // 通过属性列表映射出下拉选项
+  const propertyOptions = properties.map((item) => {
+    return {
+      label: item.title,
+      value: item.code,
+    }
+  })
 
-    // 通过选定的 fact 找到可选的运算符列表
-    const factItem = properties.find((item) => item.code === conditions.fact)
-    const operators = factItem ? OperatorTypeMap[(factItem as IProperty).type] : []
+  // 通过选定的 fact 找到可选的运算符列表
+  const factItem = properties.find((item) => item.code === conditions.fact)
+  const operators = factItem ? OperatorTypeMap[(factItem as IProperty).type] : []
 
-    return <div>
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        marginBottom: '10px'
-      }}>
-        <Select placeholder='属性' style={{
-          width: '160px'
-        }} options={propertyOptions} value={conditions.fact} onChange={(value)=>onConditionsChange({
-          ...conditions,
-          fact: value
-        })} />
-        <Select style={{
-          width: '160px',
-          marginLeft: '10px'
-        }} placeholder='运算符' options={operators.map((item)=>{
-          return {
-            label: item,
-            value: item,
-          }
-        })} />
-        {
-          factItem?.widget === 'text' ?
+  return <div>
+    <div style={{
+      display: 'flex',
+      alignItems: 'center',
+      marginBottom: '10px'
+    }}>
+      <Select placeholder='属性' style={{
+        width: '160px'
+      }} options={propertyOptions} value={conditions.fact} onChange={(value) => onConditionsChange({
+        ...conditions,
+        fact: value
+      })} />
+      <Select style={{
+        width: '160px',
+        marginLeft: '10px'
+      }} placeholder='运算符' options={operators.map((item) => {
+        return {
+          label: item,
+          value: item,
+        }
+      })} value={conditions.operator} onChange={(value) => onConditionsChange({
+        ...conditions,
+        operator: value
+      })} />
+      {
+        factItem?.widget === 'text' ?
           <Input style={{
             width: '160px',
             marginLeft: '10px'
-          }} type='text' placeholder='请输入' />
+          }} type='text' placeholder='请输入' value={conditions.value} onChange={(value) => onConditionsChange({
+            ...conditions,
+            value: value
+          })} />
           :
           factItem?.widget === 'number' ?
-          <InputNumber style={{
-            width: '160px',
-            marginLeft: '10px'
-          }} type='number' {...factItem.controlProps} placeholder='请输入' />
-          :
-          factItem?.widget === 'select' ?
-          <Select mode={factItem.type === 'String' ? undefined : 'multiple'} style={{
-            width: '160px',
-            marginLeft: '10px'
-          }} placeholder='值' options={factItem.controlProps.options} />
-          : null
-        }
+            <InputNumber style={{
+              width: '160px',
+              marginLeft: '10px'
+            }} type='number' {...factItem.controlProps} placeholder='请输入' value={conditions.value} onChange={(value) => onConditionsChange({
+              ...conditions,
+              value: value
+            })} />
+            :
+            factItem?.widget === 'select' ?
+              <Select mode={factItem.type === 'String' ? undefined : 'multiple'} style={{
+                width: '160px',
+                marginLeft: '10px'
+              }} placeholder='值' options={factItem.controlProps.options} value={conditions.value} onChange={(value) => onConditionsChange({
+                ...conditions,
+                value: value
+              })} />
+              : null
+      }
 
-      </div>
     </div>
+  </div>
 }
 
 const RuleEditorNode = (props: {
@@ -215,7 +227,7 @@ const RuleEditorNode = (props: {
       {
         (conditions as ILogicRule)[logicOperator].map((item, index: number) => {
           return (
-            <RuleEditorNode key={index} conditions={item} onConditionsChange={(newConditions)=>handleConditionChange(index, newConditions)} />
+            <RuleEditorNode key={index} conditions={item} onConditionsChange={(newConditions) => handleConditionChange(index, newConditions)} />
           )
         })
       }
@@ -225,7 +237,7 @@ const RuleEditorNode = (props: {
 
 export const RuleEditor = (props: IRuleEditorProps) => {
 
-  const { value, onChange, properties } = props
+  const { value, onChange, properties = [] } = props
 
   return <RuleEditorContext.Provider value={{ properties }}>
     {/* @ts-ignore */}
