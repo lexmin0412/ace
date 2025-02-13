@@ -38,7 +38,9 @@
     "dev": "rslib build --watch",
     "format": "biome format --write",
     "storybook": "storybook dev",
-    "test": "vitest run"
+    "test": "vitest run",
+    "prepublishOnly": "pnpm build",
+    "release": "release-it"
   },
   "commitlint": {
     "extends": [
