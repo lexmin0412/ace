@@ -1,5 +1,7 @@
-import { Select } from 'antd'
+import { Input, InputNumber, Select } from 'antd'
+import type { DefaultOptionType } from 'antd/es/select'
 import type { Rule } from 'json-rules-engine'
+import React, { useContext } from 'react'
 
 /**
  * 具体规则节点
@@ -23,7 +25,7 @@ type ILogicOperator = 'all' | 'any'
 /**
  * 逻辑节点（根节点一定是逻辑节点，使用此类型）
  */
-type ILogicRule = Record<ILogicOperator, IRule[]>
+export type ILogicRule = Record<ILogicOperator, IRule[]>
 
 enum LogicOperatorEnum {
   ALL = 'all',
@@ -32,19 +34,46 @@ enum LogicOperatorEnum {
 
 type LogicOperatorType = `${LogicOperatorEnum}`;
 
-interface IProperty {
+/**
+ * 逻辑运算符下拉选项
+ */
+const LoginOperatorOptions = Object.keys(LogicOperatorEnum).map((key) => {
+  return {
+    label: key,
+    value: LogicOperatorEnum[key as keyof typeof LogicOperatorEnum],
+  }
+})
+
+export interface IProperty {
   /**
    * 属性名称
    */
-  label: string,
+  title: string,
   /**
    * 属性 key
    */
-  value: string,
+  code: string,
+  /**
+   * 属性类型
+   */
+  type: keyof typeof OperatorTypeMap,
   /**
    * 属性的控件类型，可选值控件根据 type 决定
    */
-  type: string,
+  widget: 'text' | 'number' | 'mtText' | 'select',
+  /**
+   * 控件属性
+   */
+  controlProps: {
+    /**
+     * 下拉选项
+     */
+    options?: DefaultOptionType[]
+    /**
+     * 异步下拉选项
+     */
+    dynamicOptions?: (keyword: string, ids?: string[]) => Promise<DefaultOptionType[]>
+  }
 }
 
 interface IRuleEditorProps {
@@ -64,14 +93,40 @@ interface IRuleEditorProps {
 
 // const engine = new Engine()
 
-export const RuleEditor = (props: IRuleEditorProps) => {
+const OperatorTypeMap = {
+  String: ['equal', 'notEqual'],
+  Numeric: ['equal', 'notEqual', 'greaterThan', 'greaterThanInclusive', 'lessThan', 'lessThanInclusive'],
+  Array: ['in', 'notIn', 'contains', 'doesNotContain '],
+}
 
-  const { value, properties } = props
+const RuleEditorContext = React.createContext<{
+  properties: IProperty[]
+}>({
+  properties: []
+})
 
-  const Item = (props: {
-    conditions: ILeafRule
-  }) => {
-    const { conditions } = props
+/**
+ * 叶子节点编辑器
+ */
+const LeafRuleEditor = (props: {
+  conditions: ILeafRule
+  onConditionsChange: (conditions: ILeafRule) => void
+}) => {
+  const { properties } = useContext(RuleEditorContext)
+  const { conditions, onConditionsChange } = props
+
+    // 通过属性列表映射出下拉选项
+    const propertyOptions = properties.map((item) => {
+      return {
+        label: item.title,
+        value: item.code,
+      }
+    })
+
+    // 通过选定的 fact 找到可选的运算符列表
+    const factItem = properties.find((item) => item.code === conditions.fact)
+    const operators = factItem ? OperatorTypeMap[(factItem as IProperty).type] : []
+
     return <div>
       <div style={{
         display: 'flex',
@@ -80,74 +135,100 @@ export const RuleEditor = (props: IRuleEditorProps) => {
       }}>
         <Select placeholder='属性' style={{
           width: '160px'
-        }} options={properties} value={conditions.fact} />
+        }} options={propertyOptions} value={conditions.fact} onChange={(value)=>onConditionsChange({
+          ...conditions,
+          fact: value
+        })} />
         <Select style={{
           width: '160px',
           marginLeft: '10px'
-        }} placeholder='运算符' options={[
-          {
-            label: '等于',
-            value: 'equal',
-          },
-          {
-            label: '大于',
-            value: 'greaterThan',
-          },
-          {
-            label: '大于等于',
-            value: 'greaterThanInclusive',
-          },
-          {
-            label: '小于',
-            value: 'lessThan',
-          },
-          {
-            label: '小于等于',
-            value: 'lessThanInclusive',
+        }} placeholder='运算符' options={operators.map((item)=>{
+          return {
+            label: item,
+            value: item,
           }
-        ]} />
-        <Select style={{
-          width: '160px',
-          marginLeft: '10px'
-        }} placeholder='值' options={[
-          {
-            label: '18',
-            value: '18',
-          }
-        ]} />
-      </div>
-    </div>
-  }
-
-  const Group = (props: {
-    conditions: IRule
-  }) => {
-    const { conditions } = props
-    // 如果没有 any 或者 all 则直接渲染 item
-    if (!(conditions as ILogicRule).any && !(conditions as ILogicRule).all) {
-      return <Item conditions={conditions as ILeafRule} />
-    }
-    const logicOperator = Object.keys(conditions)[0] as LogicOperatorType
-    return <div style={{
-      display: 'flex',
-      alignItems: 'center',
-    }}>
-      <Select style={{
-        width: '80px'
-      }} variant='borderless' value={logicOperator} options={properties} />
-
-      <div>
+        })} />
         {
-          (conditions as ILogicRule)[logicOperator].map((item, index: number) => {
-            return (
-              <Group key={index} conditions={item} />
-            )
-          })
+          factItem?.widget === 'text' ?
+          <Input style={{
+            width: '160px',
+            marginLeft: '10px'
+          }} type='text' placeholder='请输入' />
+          :
+          factItem?.widget === 'number' ?
+          <InputNumber style={{
+            width: '160px',
+            marginLeft: '10px'
+          }} type='number' {...factItem.controlProps} placeholder='请输入' />
+          :
+          factItem?.widget === 'select' ?
+          <Select mode={factItem.type === 'String' ? undefined : 'multiple'} style={{
+            width: '160px',
+            marginLeft: '10px'
+          }} placeholder='值' options={factItem.controlProps.options} />
+          : null
         }
+
       </div>
     </div>
+}
+
+const RuleEditorNode = (props: {
+  conditions: IRule
+  onConditionsChange: (conditions: IRule) => void
+}) => {
+  const { conditions, onConditionsChange } = props
+  const { properties } = useContext(RuleEditorContext)
+  // 如果没有 any 或者 all 则直接渲染 item
+  if (!(conditions as ILogicRule).any && !(conditions as ILogicRule).all) {
+    return <LeafRuleEditor conditions={conditions as ILeafRule} onConditionsChange={onConditionsChange} />
+  }
+  const logicOperator = Object.keys(conditions)[0] as LogicOperatorType
+
+  const handleConditionChange = (changedIndex: number, value: IRule) => {
+    const newRules = (conditions as ILogicRule)[logicOperator].map((item, index) => {
+      if (changedIndex === index) {
+        return value
+      }
+      return item
+    })
+    onConditionsChange({
+      [logicOperator]: newRules
+    } as ILogicRule)
   }
 
-  // @ts-ignore
-  return <Group conditions={value} />
+  return <div style={{
+    display: 'flex',
+    alignItems: 'center',
+  }}>
+    <Select style={{
+      width: '80px'
+    }} variant='borderless' value={logicOperator} options={LoginOperatorOptions} onChange={(value: LogicOperatorType) => {
+      // @ts-ignore
+      const newValue: ILogicRule = {
+        [value as LogicOperatorType]: (conditions as ILogicRule)[logicOperator]
+      }
+      onConditionsChange(newValue)
+    }} />
+
+    <div>
+      {
+        (conditions as ILogicRule)[logicOperator].map((item, index: number) => {
+          return (
+            <RuleEditorNode key={index} conditions={item} onConditionsChange={(newConditions)=>handleConditionChange(index, newConditions)} />
+          )
+        })
+      }
+    </div>
+  </div>
+}
+
+export const RuleEditor = (props: IRuleEditorProps) => {
+
+  const { value, onChange, properties } = props
+
+  return <RuleEditorContext.Provider value={{ properties }}>
+    {/* @ts-ignore */}
+    <RuleEditorNode conditions={value} onConditionsChange={onChange} />
+  </RuleEditorContext.Provider>
 }
