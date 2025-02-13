@@ -34,6 +34,13 @@ const config: StorybookConfig = {
     reactDocgen: 'react-docgen-typescript',
     check: true,
   },
+  async rsbuildFinal(config) {
+    config.server = {
+      ...config.server,
+      base: '/ace/'
+    }
+    return config
+  }
 };
 
 export default config;
