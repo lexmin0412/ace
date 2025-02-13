@@ -52,11 +52,11 @@
     "@ant-design/v5-patch-for-react-19": "^1.0.3",
     "antd": "^5.23.0",
     "json-rules-engine": "^7.3.0",
-    "lodash": "^4.17.21",
-    "release-it": "^15.10.0"
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.3",
+    "@release-it/conventional-changelog": "^10.0.0",
     "@rsbuild/core": "1.2.0-alpha.0",
     "@rsbuild/plugin-react": "^1.1.0",
     "@rslib/core": "^0.3.0",
@@ -76,6 +76,7 @@
     "jsdom": "^25.0.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "release-it": "^15.10.0",
     "storybook": "^8.4.7",
     "storybook-addon-rslib": "^0.1.7",
     "storybook-react-rsbuild": "^0.1.7",
