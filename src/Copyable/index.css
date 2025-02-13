@@ -1,0 +1,8 @@
+.copyable-wrapper {
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+    text-decoration-style: dashed;
+    color: #fff;
+  }
+}

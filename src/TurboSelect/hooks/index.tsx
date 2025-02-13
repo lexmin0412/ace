@@ -1,9 +1,10 @@
-import { SelectProps } from 'antd';
-import { DefaultOptionType } from 'antd/lib/select';
+import type { SelectProps } from 'antd';
+import type { DefaultOptionType } from 'antd/lib/select';
 import _ from 'lodash';
-import React, { Key, useCallback, useEffect, useMemo, useState } from 'react';
+import type React from 'react';
+import { type Key, useCallback, useEffect, useMemo, useState } from 'react'
 
-import { TurboSelectProps } from '../index';
+import type { TurboSelectProps } from '../index';
 
 interface UseCommonHooksProps extends TurboSelectProps {
   /**
@@ -68,7 +69,7 @@ interface UseCommonHooksProps extends TurboSelectProps {
 export const useSelectCommonHooks = (
   props: UseCommonHooksProps,
   turboSelectRef: any,
-) => {
+): SelectProps => {
   const {
     /** 非 select 原生 props begin */
     searchIdsGetter,
@@ -188,6 +189,7 @@ export const useSelectCommonHooks = (
     [availableFilter, request, searchIdsGetter, itemLabelHandler],
   );
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (request) {
       handleSearch(

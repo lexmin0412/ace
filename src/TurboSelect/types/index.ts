@@ -1,4 +1,4 @@
-import { TurboSelectProps } from '..';
+import type { TurboSelectProps } from '..';
 
 /**
  * rc-virtual-list 同名类型的 fork

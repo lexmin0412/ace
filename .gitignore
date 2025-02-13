@@ -1,7 +1,16 @@
-node_modules
-/dist
-/docs-dist
-.dumi/tmp
-.dumi/tmp-test
-.dumi/tmp-production
+# Local
 .DS_Store
+*.local
+*.log*
+
+# Dist
+node_modules
+dist/
+
+# IDE
+.vscode/*
+!.vscode/extensions.json
+.idea
+
+# Storybook
+storybook-static

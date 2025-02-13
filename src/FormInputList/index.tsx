@@ -2,13 +2,14 @@
  * 批量录入组件，可用于数组形式字段的批量录入，如微信第三方域名配置
  */
 
-import { Form, Input } from 'antd';
-import _ from 'lodash';
-import React, { useMemo, useState } from 'react';
+import { Form, Input } from "antd";
+import React, { type JSX, useMemo, useState } from "react";
 
-import IconAdd from './icon-add';
+import IconAdd from "./icon-add";
 
-import styles from './index.module.less';
+import "./index.css";
+
+const cloneDeep = (data: any) => JSON.parse(JSON.stringify(data))
 
 interface FormInputListProps {
   addIcon?: JSX.Element;
@@ -18,35 +19,35 @@ interface FormInputListProps {
   onChange?: (value: string[]) => void;
 }
 
-export default function FormInputList(props: FormInputListProps) {
+export const FormInputList = (props: FormInputListProps) => {
   const {
     addIcon,
     removeIcon,
-    placeholder = 'Please input',
+    placeholder = "Please input",
     value,
     onChange,
   } = props;
-  const [valueList, setValueList] = useState<string[]>(['']);
+  const [valueList, setValueList] = useState<string[]>([""]);
 
   const value4Render = useMemo(() => {
     return value || valueList;
   }, [value, valueList]);
 
   const handleAddItem = () => {
-    const newList = (value4Render || []).concat(['']);
+    const newList = (value4Render || []).concat([""]);
     setValueList(newList);
     onChange?.(newList);
   };
 
   const handleFieldChange = (e: any, index: number) => {
-    const newValues = _.cloneDeep(value4Render);
+    const newValues = cloneDeep(value4Render);
     newValues[index] = e.target.value;
     setValueList(newValues);
     onChange?.(newValues);
   };
 
   const handleSubstractItem = (index: number) => {
-    const newValues = _.cloneDeep(value4Render);
+    const newValues = cloneDeep(value4Render);
     newValues.splice(index, 1);
     setValueList(newValues);
     onChange?.(newValues);
@@ -54,11 +55,11 @@ export default function FormInputList(props: FormInputListProps) {
 
   return (
     <>
-      <div className={styles['form-item-container']}>
+      <div className="form-item-container">
         <Form.Item noStyle>
           <Input
             type="text"
-            className={styles['form-item-input']}
+            className="form-item-input"
             placeholder={placeholder}
             value={value4Render?.[0]}
             onChange={(e) => handleFieldChange(e, 0)}
@@ -70,33 +71,32 @@ export default function FormInputList(props: FormInputListProps) {
           return null;
         }
         return (
-          <div className={styles['form-item-container']} key={index}>
+          <div className="form-item-container" key={index}>
             <Form.Item colon={false} noStyle>
               <Input
                 value={item}
                 type="text"
-                className={styles['form-item-input']}
+                className="form-item-input"
                 placeholder={placeholder}
                 onChange={(e) => handleFieldChange(e, index)}
               />
             </Form.Item>
-            <div className={styles['suffix']}>
-              <div className={styles['divider']}></div>
+            <div className="suffix">
+              <div className="divider" />
+              {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
               <div
                 onClick={() => handleSubstractItem(index)}
-                className={styles['substract-button']}
+                className="substract-button"
               >
-                {removeIcon || '-'}
+                {removeIcon || "-"}
               </div>
             </div>
           </div>
         );
       })}
-      <div
-        onClick={handleAddItem}
-        className={`${styles['form-item-container']} ${styles['border-0']}`}
-      >
-        <div className={styles['form-item-add']}>
+      {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+      <div onClick={handleAddItem} className="form-item-container border-0">
+        <div className="form-item-add">
           {addIcon || <IconAdd />}
           <span>Add</span>
         </div>

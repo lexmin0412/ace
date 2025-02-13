@@ -1,6 +1,6 @@
 import { Popover } from 'antd';
-import React, { useEffect, useState } from 'react';
-import './index.less';
+import { JSX, useEffect, useState } from 'react';
+import './index.css';
 
 const colorList = [
   'rgb(0, 0, 0)',
@@ -82,7 +82,7 @@ interface ColorPickerProps {
   children: JSX.Element | JSX.Element[];
 }
 
-export default function ColorPicker(props: ColorPickerProps) {
+export const ColorPicker = (props: ColorPickerProps) => {
   const { labelForSelected = 'Selected', value, children, onChange } = props;
   const [open, setOpen] = useState(false);
   const [currentColor, setCurrentColor] = useState('#000');
@@ -132,8 +132,6 @@ export default function ColorPicker(props: ColorPickerProps) {
       </div>
     );
   };
-
-  console.log('open', open);
 
   return (
     <Popover

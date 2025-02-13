@@ -1,7 +1,7 @@
 import { Select } from 'antd';
-import React, { Key, useImperativeHandle, useRef } from 'react';
+import React, { type Key, useImperativeHandle, useRef } from 'react';
 import { useSelectCommonHooks } from '../hooks';
-import { TurboSelectInnerProps } from '../types';
+import type { TurboSelectInnerProps } from '../types';
 
 /**
  * TurboSelect 单选实现
@@ -9,7 +9,7 @@ import { TurboSelectInnerProps } from '../types';
 const TurboSelectSingle = (props: TurboSelectInnerProps) => {
   const { availableValues, options, parentRef } = props;
 
-  const turboSelectRef = useRef<any>();
+  const turboSelectRef = useRef<any>(null);
 
   const searchIdsGetter = (ids: any[]) => {
     const searchIds = Array.from(

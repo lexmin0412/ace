@@ -1,10 +1,11 @@
-import { SelectProps } from 'antd';
-import { DefaultOptionType } from 'antd/lib/select';
-import React, { forwardRef, Key } from 'react';
+import type { SelectProps } from 'antd';
+import type { DefaultOptionType } from 'antd/lib/select';
+import type React from 'react';
+import { forwardRef, type Key } from 'react'
 
 import TurboSelectMulti from './components/multi';
 import TurboSelectSingle from './components/single';
-import { BaseSelectRef } from './types';
+import type { BaseSelectRef } from './types';
 
 export interface TurboSelectProps extends SelectProps {
   request?: (
@@ -23,7 +24,7 @@ export interface TurboSelectProps extends SelectProps {
 /**
  * Ant Design Select 终极封装，完善每一个交互细节
  */
-const TurboSelect: React.ForwardRefRenderFunction<
+const TurboSelectInner: React.ForwardRefRenderFunction<
   BaseSelectRef,
   TurboSelectProps
 > = (props, ref) => {
@@ -36,4 +37,4 @@ const TurboSelect: React.ForwardRefRenderFunction<
   return <TurboSelectSingle parentRef={ref} {...restProps} />;
 };
 
-export default forwardRef(TurboSelect);
+export const TurboSelect = forwardRef(TurboSelectInner);

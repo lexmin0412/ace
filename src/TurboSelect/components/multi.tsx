@@ -1,10 +1,11 @@
 import { Empty, Select, Tag, Tooltip } from 'antd';
-import { DefaultOptionType } from 'antd/lib/select';
+import type { DefaultOptionType } from 'antd/lib/select';
 import _ from 'lodash';
-import React, { Key, forwardRef, useImperativeHandle, useRef } from 'react';
+import type React from 'react';
+import { type Key, forwardRef, useImperativeHandle, useRef } from 'react'
 
 import { useSelectCommonHooks } from '../hooks';
-import { TurboSelectInnerProps } from '../types';
+import type { TurboSelectInnerProps } from '../types';
 import { availableValuesFilter } from '../utils';
 
 /**
@@ -13,7 +14,7 @@ import { availableValuesFilter } from '../utils';
 const TurboSelectMulti = (props: TurboSelectInnerProps) => {
   const { availableValues, parentRef, disabled, value, labelInValue } = props;
   const searching = useRef(false);
-  const turboSelectRef = useRef<any>();
+  const turboSelectRef = useRef<any>(null);
 
   const searchIdsGetter = (ids: any[]) => {
     const searchIds = Array.from(
@@ -55,6 +56,27 @@ const TurboSelectMulti = (props: TurboSelectInnerProps) => {
     if (!open && onChange) {
       triggerChange(newValue, onChange);
     }
+  };
+
+  const blurHandler = (
+    _: any,
+    handlerOptions: {
+      value: any;
+      onBlur: React.FocusEventHandler;
+    },
+  ) => {
+    const { value, onBlur } = handlerOptions;
+    const validValue = availableValuesFilter(
+      value,
+      baseProps.options,
+      labelInValue,
+    );
+    onBlur?.({
+      target: {
+        // @ts-ignore // TODO blur的类型定义与原生事件不一致，需要调整一下
+        value: validValue,
+      },
+    });
   };
 
   const baseProps = useSelectCommonHooks(
@@ -101,31 +123,10 @@ const TurboSelectMulti = (props: TurboSelectInnerProps) => {
     }
   };
 
-  const blurHandler = (
-    _: any,
-    handlerOptions: {
-      value: any;
-      onBlur: React.FocusEventHandler;
-    },
-  ) => {
-    const { value, onBlur } = handlerOptions;
-    const validValue = availableValuesFilter(
-      value,
-      baseProps.options,
-      labelInValue,
-    );
-    onBlur?.({
-      target: {
-        // @ts-ignore // TODO blur的类型定义与原生事件不一致，需要调整一下
-        value: validValue,
-      },
-    });
-  };
-
   const handleSearch = (searchValue: string) => {
     searching.current = !!searchValue;
     // 触发默认的 onSearch 行为
-    baseProps.onSearch?.(searchValue, baseProps.value as unknown as string[]);
+    baseProps.onSearch?.(searchValue);
   };
 
   useImperativeHandle(parentRef, () => ({
