@@ -1,0 +1,48 @@
+.slp-overlay .ant-popover-inner,
+.slp-overlay .ant-popover-inner .ant-popover-inner-content {
+  padding: 0;
+}
+
+/* 容器 */
+.slp-content {
+  width: 208px; /* w-52 => 13rem => 208px */
+}
+
+/* 搜索输入区域 */
+.slp-search {
+  padding: 8px 12px; /* py-2 px-3 */
+}
+
+/* 列表区域 */
+.slp-list {
+  max-height: 384px; /* max-h-96 => 24rem => 384px */
+  overflow: auto;
+  padding: 0 12px 12px; /* px-3 pb-3 */
+}
+
+/* 列表项 */
+.slp-item {
+  cursor: pointer; /* cursor-pointer */
+  height: 32px; /* h-8 => 2rem => 32px */
+  line-height: 32px; /* leading-8 */
+  padding: 0 8px; /* px-2 */
+  border-radius: 6px; /* rounded-md */
+}
+
+/* 悬浮态 */
+.slp-item:hover {
+  background-color: #f5f5f5; /* hover:bg-gray-100 的近似值 */
+}
+
+/* 选中态 */
+.slp-item--selected {
+  background-color: #e6f4ff; /* bg-[#e6f4ff] */
+}
+
+/* 空状态 */
+.slp-empty {
+  padding: 12px;
+  text-align: center;
+  color: #999;
+  font-size: 12px;
+}
